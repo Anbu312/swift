@@ -3135,6 +3135,23 @@ static bool checkDifferentiationParameters(
     if (!conformsToDifferentiable(wrtParamType, AFD)) {
       TC.diagnose(loc, diag::diff_params_clause_param_not_differentiable,
                   wrtParamType);
+      llvm::errs() << "wrtParamType\n";
+      wrtParamType->dump();
+      llvm::errs() << "AFD\n";
+      AFD->dump();
+      auto *DC = AFD;
+      // START TO DEBUG!
+      auto &ctx = wrtParamType->getASTContext();
+      auto *differentiableProto =
+          ctx.getProtocol(KnownProtocolKind::Differentiable);
+      auto conf = TypeChecker::conformsToProtocol(
+          wrtParamType, differentiableProto, AFD, ConformanceCheckFlags::InExpression);
+      llvm::errs() << "CONF: " << conf.hasValue() << "\n";
+      // Try to get the `TangentVector` type witness, in case the conformance has
+      // not been fully checked and the type witness cannot be resolved.
+      Type tanType = conf->getTypeWitnessByName(wrtParamType, ctx.Id_TangentVector);
+      llvm::errs() << "TAN TYPE: " << tanType.getPointer() << "\n";
+      assert(false);
       return true;
     }
   }

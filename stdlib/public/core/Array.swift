@@ -694,7 +694,7 @@ extension Array: RandomAccessCollection, MutableCollection {
   ///   O(*n*), where *n* is the length of the array.
   @inlinable
   // SWIFT_ENABLE_TENSORFLOW
-  @differentiable(wrt: self, vjp: _vjpSubscript where Element : Differentiable)
+  // @differentiable(wrt: self, vjp: _vjpSubscript where Element : Differentiable)
   public subscript(index: Int) -> Element {
     get {
       // This call may be hoisted or eliminated by the optimizer.  If

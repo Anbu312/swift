@@ -70,7 +70,7 @@ public struct Tracked<T> {
     self.handle = Box(value)
   }
 
-  @differentiable(jvp: _jvpValue, vjp: _vjpValue where T : Differentiable, T == T.TangentVector)
+  // @differentiable(jvp: _jvpValue, vjp: _vjpValue where T : Differentiable, T == T.TangentVector)
   public var value: T {
     get { handle.value }
     set { handle.value = newValue }
